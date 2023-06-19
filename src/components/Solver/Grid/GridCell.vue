@@ -1,3 +1,7 @@
 <template>
-    This is a grid cell.
+    <p>{{ cell + 1 }}</p>
 </template>
+
+<script setup>
+const props = defineProps(['cell', 'grid']);
+</script>

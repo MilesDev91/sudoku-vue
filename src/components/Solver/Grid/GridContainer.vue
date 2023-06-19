@@ -1,12 +1,31 @@
 <template>
     This is a grid, can't you see
     <div class="grid-container">
-        <p class="grid-item" v-for="cell in grid">1</p>
+        <div :class="calculateClass(index + 1)" v-for="(cell, index) in props.grid">
+            <GridCell :cell="index" :grid="props.grid" />
+        </div>
     </div>
 </template>
 
 <script setup>
-const grid = new Array(81);
+const props = defineProps(['grid']);
+
+const calculateClass = (i) => {
+    let classArray = ["grid-item"];
+    // remove border on right side
+    if(i % 9 == 0) {
+        classArray.push("grid-item-9th");
+    }
+    // make a thick border on every third if it isn't divisible by 9 (right side)
+    else if(i % 3 == 0) {
+        classArray.push("grid-item-3rd-6th-column");
+    }
+    // add thick line to bottom if from 19-27 or 46-54 
+    if((i >= 19 && i <= 27) || (i >= 46 && i <= 54)) {
+        classArray.push("grid-item-3rd-6th-row");
+    }
+    return classArray;
+}
 </script>
 
 <style scoped>
@@ -28,6 +47,18 @@ const grid = new Array(81);
     justify-content: center;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
+}
+
+.grid-item-9th {
+    border-right: none;
+}
+
+.grid-item-3rd-6th-row {
+    border-bottom: 2px solid black;
+}
+
+.grid-item-3rd-6th-column {
+    border-right: 2px solid black;
 }
 
 </style>
