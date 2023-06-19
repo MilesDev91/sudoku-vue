@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <Grid />
+        <GridContainer />
     </div>
 </template>
 
