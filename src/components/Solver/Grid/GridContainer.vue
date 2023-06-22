@@ -2,16 +2,22 @@
     This is a grid, can't you see
     <div class="grid-container">
         <div 
-            @click="$emit('changeSelected', index)"
-            :class="calculateClass(index)" 
-            v-for="(cell, index) in props.grid"
-        >
-            <GridCell  
-                @change-cell-value="(value, index) => $emit('changeGridCellValue', value, index)"
-                :isSelected="isSelected(index)"
-                :cellValue="grid[index]"
-                :cellIndex="index"
-            />
+            :class="calculateRowClass(row)" 
+            v-for="(cell, row) in props.grid"
+        >        
+            <div 
+                @click="$emit('changeSelected', row, column)"
+                :class="calculateColumnClass(row, column)" 
+                v-for="(cell, column) in props.grid[row]"
+            >
+                <GridCell  
+                    @change-cell-value="(value, row, column) => $emit('changeGridCellValue', value, row, column)"
+                    :isSelected="isSelected(row, column)"
+                    :cellValue="grid[row][column]"
+                    :cellRow="row"
+                    :cellColumn="column"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -25,62 +31,67 @@ const props = defineProps(['grid', 'selectedCell']);
 
 const emits = defineEmits(["changeSelected","changeGridCellValue"]);
 
-const isSelected = (index) => {
-    return true ? props.selectedCell == index : false;
+const isSelected = (row, column) => {
+    if(props.selectedCell && props.selectedCell[0] == row && props.selectedCell[1] == column) {
+        return true
+    }
+    return false;
 }
 
-const calculateClass = (index) => {
-    // cellNumber is for grid styling, index for cell specific
-    let cellNumber = index + 1;
+const calculateRowClass = (row) => {
+    let rowNumber = row + 1;
 
-    let classArray = ["grid-item"];
+    let classArray = ["grid-row"];
 
-    // remove border on right side
-    if(cellNumber % 9 == 0) {
-        classArray.push("grid-item-9th");
-    }
-    // make a thick border on every third if it isn't divisible by 9 (right side)
-    else if(cellNumber % 3 == 0) {
-        classArray.push("grid-item-3rd-6th-column");
-    }
-    // add thick line to bottom if from 19-27 or 46-54 
-    if((cellNumber >= 19 && cellNumber <= 27) || (cellNumber >= 46 && cellNumber <= 54)) {
+    // add thick line to bottom if third or 6th row
+    if(rowNumber % 3 == 0) {
         classArray.push("grid-item-3rd-6th-row");
-    }
-    // selected cell styling
-    if(isSelected(index)) {
-        classArray.push("grid-item-selected");
     }
     return classArray;
 }
 
-// Watch for selected cell change to trigger style change
-watch(() => props.selectedCell, () => {
-    console.log(props.selectedCell);
-})
+// Cell specific stuff goes here as well.
+const calculateColumnClass = (row, column) => {
+    let colNumber = column + 1;
+
+    let classArray = ["grid-item"];
+
+    // make a thick border on every third if it isn't divisible by 9 (right side)
+    if(colNumber % 3 == 0 && colNumber % 9 != 0) {
+        classArray.push("grid-item-3rd-6th-column");
+    }
+    if(isSelected(row, column)) {
+        classArray.push("grid-item-selected");
+    }
+
+    return classArray;
+}
 
 </script>
 
 <style scoped>
 .grid-container {
-    background-color: rgb(233, 233, 233);
     color: black;
-    display: grid;
-    grid-template: repeat(9, 1fr) / repeat(9, 1fr);
-    justify-items: center;
-    align-items: center;
-    width: 600px;
-    height: 600px;
-    place-items: stretch;
+    display: flex;
+    flex-direction: column;
+    width: 720px;
 }
 
 .grid-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: rgb(233, 233, 233);
+    width: 80px;
     border-right: 1px solid black;
-    border-bottom: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
     cursor: pointer;
+}
+
+.grid-row {
+    display: flex;
+    height: 80px;
+    border-bottom: 1px solid black;
 }
 
 .grid-item-9th {

@@ -5,13 +5,13 @@
 <script setup>
 import { watch } from 'vue';
 
-const props = defineProps(['cellValue', 'isSelected', 'cellIndex']);
+const props = defineProps(['cellValue', 'cellRow', 'cellColumn', 'isSelected']);
 
 const emit = defineEmits(['changeCellValue']);
 
 const emitChangeCellValueEvent = function(e) {
     if(e.key >= 1 && e.key <= 9) {
-        emit('changeCellValue', e.key, props.cellIndex);
+        emit('changeCellValue', e.key, props.cellRow, props.cellColumn);
     }
 }
 
