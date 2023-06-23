@@ -1,5 +1,4 @@
 <template>
-    This is a grid, can't you see
     <div class="grid-container">
         <div 
             :class="calculateRowClass(row)" 
@@ -25,7 +24,7 @@
 <script setup>
 import { watch } from 'vue';
 
-const props = defineProps(['grid', 'selectedCell']);
+const props = defineProps(['grid', 'gridErrors', 'selectedCell']);
 
 
 
@@ -60,8 +59,15 @@ const calculateColumnClass = (row, column) => {
     if(colNumber % 3 == 0 && colNumber % 9 != 0) {
         classArray.push("grid-item-3rd-6th-column");
     }
+
+    // check selected
     if(isSelected(row, column)) {
         classArray.push("grid-item-selected");
+    }
+    
+    // check for a match to the grid error array
+    if(props.gridErrors[row][column]) {
+        classArray.push("grid-item-error");
     }
 
     return classArray;
@@ -108,6 +114,10 @@ const calculateColumnClass = (row, column) => {
 
 .grid-item-selected {
     background-color: rgb(162, 229, 231);
+}
+
+.grid-item-error {
+    background-color: rgb(223, 145, 121)
 }
 
 </style>

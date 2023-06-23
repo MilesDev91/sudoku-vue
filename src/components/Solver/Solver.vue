@@ -5,6 +5,7 @@
             @change-grid-cell-value="(value, row, column) => changeGridCellValue(value, row, column)"
             :grid="grid" 
             :selectedCell="selectedCell" 
+            :gridErrors="gridErrors"
         />
     </div>
 </template>
@@ -15,6 +16,7 @@ import { ref, watch } from 'vue';
 
 // 2d array, Array[row][column]
 const grid = ref([...Array(9)].map(e => Array(9)));
+const gridErrors = ref([...Array(9)].map(e => Array(9)));
 const selectedCell = ref();
 
 const changeGridCellValue = (value, row, column) => {
@@ -23,7 +25,7 @@ const changeGridCellValue = (value, row, column) => {
 
 watch(() => grid.value, (grid) => {
     console.log("changed");
-    validateGrid(grid);
+    gridErrors.value = validateGrid(grid);
     },
     { deep: true }
 )
