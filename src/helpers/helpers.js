@@ -73,8 +73,44 @@ const validateColumn = (grid, gridErrors) => {
 
 // Validate block
 const validateBlock = (grid, gridErrors) => {
-    return
+    for(let block in blocks) {
+        let alreadySeen = {};
+        let blockRows = blocks[block].row
+        let blockColumns = blocks[block].column
+        for(let row in blockRows) {
+            for(let column in blockColumns) {
+                if(alreadySeen[grid[blockRows[row]][blockColumns[column]]]) {
+                    // loop back through to find all locations of duplicates
+                    for(let x in blockRows) {
+                        for(let y in blockColumns) {
+                            if(grid[blockRows[x]][blockColumns[y]] && grid[blockRows[x]][blockColumns[y]] == grid[blockRows[row]][blockColumns[column]]) {
+                                gridErrors[blockRows[x]][blockColumns[y]] = true;
+                            }
+                        }
+                    }
+                }
+    
+                else {
+                    alreadySeen[grid[blockRows[row]][blockColumns[column]]] = true;
+                }
+            }
+        }
+    }
 }
+
+// Define blocks
+
+const blocks = [
+    { row: [0, 1, 2], column: [0, 1, 2] }, 
+    { row: [0, 1, 2], column: [3, 4, 5] },
+    { row: [0, 1, 2], column: [6, 7, 8] },
+    { row: [3, 4, 5], column: [0, 1, 2] },
+    { row: [3, 4, 5], column: [3, 4, 5] },
+    { row: [3, 4, 5], column: [6, 7, 8] },
+    { row: [6, 7, 8], column: [0, 1, 2] },
+    { row: [6, 7, 8], column: [3, 4, 5] },
+    { row: [6, 7, 8], column: [6, 7, 8] }
+]
 
 
 
