@@ -1,5 +1,7 @@
 /*
 *   Section for validation
+*   Every validation function (except for the main function)
+*   will also double as a pencil mark for solving
 */
 
 export default function validateGrid (grid) {
@@ -9,7 +11,6 @@ export default function validateGrid (grid) {
     // is fairly premature. Notes at
     // bottom of file.
 
-    console.log(grid);
     let gridErrors = [...Array(9)].map(e => Array(9));
 
     validateRow(grid, gridErrors);
@@ -18,13 +19,12 @@ export default function validateGrid (grid) {
 
     validateBlock(grid, gridErrors);
 
-    console.log(gridErrors);
-
     return gridErrors;
 }
 
 // Validate row
-const validateRow = (grid, gridErrors) => {
+export const validateRow = (grid, gridErrors, solve = false) => {
+    console.log(grid, gridErrors);
     // Check for duplicates in each row by adding a key:value to 
     // alreadyseen, then checking on each subsequent loop.
     // If a match is found, then add the 2d location to gridErrors
@@ -36,8 +36,14 @@ const validateRow = (grid, gridErrors) => {
                 // but we need to loop back through the row to get
                 // the previous location.
                 for(let x in grid) {
-                    if(grid[row][x] && grid[row][column] == grid[row][x]) {
-                        gridErrors[row][x] = true;
+                    // if this is for the solving process,
+                    // we want to mark the actual value
+                    if(grid[row][x] && solve) {
+                        gridErrors[row][column][x] = grid[row][x];
+                    } else {
+                        if(grid[row][x] && grid[row][column] == grid[row][x]) {
+                            gridErrors[row][x] = true;
+                        }
                     }
                 }
             }
@@ -49,7 +55,7 @@ const validateRow = (grid, gridErrors) => {
 }
 
 // Validate column
-const validateColumn = (grid, gridErrors) => {
+export const validateColumn = (grid, gridErrors, solve = false) => {
     // Use a similar method as above, just with different looping.
     // Used different syntax as well, but does the same thing.
     for(let column = 0; column < 9; column++) {
@@ -72,7 +78,7 @@ const validateColumn = (grid, gridErrors) => {
 }
 
 // Validate block
-const validateBlock = (grid, gridErrors) => {
+export const validateBlock = (grid, gridErrors, solve = false) => {
     for(let block in blocks) {
         let alreadySeen = {};
         let blockRows = blocks[block].row
