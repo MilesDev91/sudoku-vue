@@ -23,7 +23,7 @@ const selectedCell = ref();
 // const pencilMarkGrid = ref([...Array(9)].map(e => Array(9)));
 const pencilMarkGridSolve = ref([...Array(9)]
     .map(e => [...Array(9)]
-    .map(e => Array())));
+    .map(e => [1,2,3,4,5,6,7,8,9])));
 
 const changeGridCellValue = (value, row, column) => {
     grid._value[row][column] = value;
