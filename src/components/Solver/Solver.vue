@@ -35,6 +35,7 @@ const changeGridCellValue = (value, row, column) => {
 
 const autopencil = () => {
     pencilMarkGrid.value = pencilGrid(grid.value);
+    console.log(pencilMarkGrid.value);
 }
 
 const solveGrid = () => {
@@ -42,7 +43,6 @@ const solveGrid = () => {
 }
 
 watch(() => grid.value, (grid) => {
-    console.log("changed");
     gridErrors.value = validateGrid(grid);
     },
     { deep: true }
