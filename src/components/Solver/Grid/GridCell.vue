@@ -1,11 +1,18 @@
 <template>
-    <p>{{ cellValue }}</p>
+    <div v-if="cellValue">
+        <p>{{ cellValue }}</p>
+    </div>
+    <div class="pencil-mark-cell" v-else>
+        <div v-for="mark in cellPencilMarks">
+            <p>{{ mark }}</p>
+        </div>
+    </div>
 </template>
 
 <script setup>
 import { watch } from 'vue';
 
-const props = defineProps(['cellValue', 'cellRow', 'cellColumn', 'isSelected']);
+const props = defineProps(['cellValue', 'cellRow', 'cellColumn', 'cellPencilMarks', 'isSelected']);
 
 const emit = defineEmits(['changeCellValue']);
 
@@ -35,4 +42,8 @@ watch(() => props.isSelected, (isSelected) => {
 </script>
 
 <style scoped>
+.pencil-mark-cell {
+    display: flex;
+    font-size: .8rem;
+}
 </style>

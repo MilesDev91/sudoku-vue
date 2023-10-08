@@ -6,6 +6,7 @@
             :grid="grid" 
             :selectedCell="selectedCell" 
             :gridErrors="gridErrors"
+            :pencilMarkGrid="pencilMarkGrid"
         />
         <button @click="solveGrid()">Solve</button>
         <button @click="autopencil()">Auto Pencil</button>

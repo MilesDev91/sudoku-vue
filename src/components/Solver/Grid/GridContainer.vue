@@ -15,6 +15,7 @@
                     :cellValue="grid[row][column]"
                     :cellRow="row"
                     :cellColumn="column"
+                    :cellPencilMarks="pencilMarkGrid[row][column]"
                 />
             </div>
         </div>
@@ -24,7 +25,7 @@
 <script setup>
 import { watch } from 'vue';
 
-const props = defineProps(['grid', 'gridErrors', 'selectedCell']);
+const props = defineProps(['grid', 'gridErrors', 'selectedCell', 'pencilMarkGrid']);
 
 
 

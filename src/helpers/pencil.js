@@ -19,7 +19,7 @@ export default function pencilGrid (grid, pencilGrid) {
                         console.log(newPencilGrid);
                         pencilRow(newPencilGrid, row, value);
                         pencilColumn(newPencilGrid, column, value);
-                        pencilBlock(newPencilGrid, blockNumber, value);
+                        pencilBlock(newPencilGrid, block, value);
                         console.log(newPencilGrid);
                         break;
                     }
@@ -31,16 +31,33 @@ export default function pencilGrid (grid, pencilGrid) {
     return newPencilGrid;
 }
 
-function pencilRow (pencilGrid, row, value) {
+export function cellChangePencil (pencilGrid, row, column, block, value) {
+    return;
+}
 
+function pencilRow (pencilGrid, row, value) {
+    console.log("row");
+    for(let column in pencilGrid[row]) {
+        pencilGrid[row][column][value - 1] = null;
+    }
     return;
 }
 
 function pencilColumn (pencilGrid, column, value) {
+    console.log("column");
+    for(let row in pencilGrid) {
+        pencilGrid[row][column][value - 1] = null;
+    }
     return;
 }
 
 function pencilBlock (pencilGrid, block, value) {
+    console.log("block");
+    for(let row of block.row) {
+        for(let column of block.column) {
+            pencilGrid[row][column][value - 1] = null;
+        }
+    }
     return;
 }
 
