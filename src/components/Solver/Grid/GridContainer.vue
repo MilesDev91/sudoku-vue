@@ -44,8 +44,13 @@ const calculateRowClass = (row) => {
     let classArray = ["grid-row"];
 
     // add thick line to bottom if third or 6th row
-    if(rowNumber % 3 == 0) {
+    if(rowNumber % 3 == 0 && rowNumber % 9 != 0) {
         classArray.push("grid-item-3rd-6th-row");
+    }
+
+    //remove bottom border on 9th row
+    if(rowNumber % 9 == 0) {
+        classArray.push("grid-item-9th-row");
     }
     return classArray;
 }
@@ -59,6 +64,11 @@ const calculateColumnClass = (row, column) => {
     // make a thick border on every third if it isn't divisible by 9 (right side)
     if(colNumber % 3 == 0 && colNumber % 9 != 0) {
         classArray.push("grid-item-3rd-6th-column");
+    }
+
+    //remove right border from 9th column
+    if(colNumber % 9 == 0) {
+        classArray.push("grid-item-9th-column");
     }
 
     // check selected
@@ -82,10 +92,11 @@ const calculateColumnClass = (row, column) => {
     display: flex;
     flex-direction: column;
     width: 720px;
+    border: 2px solid black;
 }
 
 .grid-item {
-    background-color: rgb(233, 233, 233);
+    background-color: white;
     width: 80px;
     border-right: 1px solid black;
     display: flex;
@@ -101,16 +112,22 @@ const calculateColumnClass = (row, column) => {
     border-bottom: 1px solid black;
 }
 
-.grid-item-9th {
-    border-right: none;
-}
+
 
 .grid-item-3rd-6th-row {
     border-bottom: 2px solid black;
 }
 
+.grid-item-9th-row {
+    border-bottom: none;
+}
+
 .grid-item-3rd-6th-column {
     border-right: 2px solid black;
+}
+
+.grid-item-9th-column {
+    border-right: none;
 }
 
 .grid-item-selected {

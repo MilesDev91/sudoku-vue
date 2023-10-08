@@ -10,7 +10,11 @@
 
 <style scoped>
 .container {
-    background-color: rgb(114, 114, 114);
     padding: 1rem;
+    border-bottom: 2px solid black;
+}
+
+.container p {
+    font-weight: bold;
 }
 </style>

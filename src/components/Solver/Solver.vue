@@ -8,15 +8,17 @@
             :gridErrors="gridErrors"
             :pencilMarkGrid="pencilMarkGrid"
         />
-        <button @click="solveGrid()">Solve</button>
-        <button @click="autopencil()">Auto Pencil</button>
+        <div class="button-container">
+            <button @click="solveGrid()">Solve</button>
+            <button @click="autopencil()">Auto Pencil</button>
+        </div>
     </div>
 </template>
 
 <script setup>
 import validateGrid from './../../helpers/validation';
 import findSolution from './../../helpers/solve';
-import pencilGrid from './../../helpers/pencil';
+import pencilGrid, { cellChangePencil } from './../../helpers/pencil';
 import { ref, watch } from 'vue';
 
 // 2d array, Array[row][column]
@@ -45,6 +47,7 @@ const solveGrid = () => {
 
 watch(() => grid.value, (grid) => {
     gridErrors.value = validateGrid(grid);
+    autopencil();
     },
     { deep: true }
 )
@@ -54,5 +57,20 @@ watch(() => grid.value, (grid) => {
 <style scoped>
 .container {
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button-container {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.button-container button {
+    font-size: 1.1rem;
+    border-radius: .5rem;
+    margin: 0 1rem;
+    padding: 1rem 1.5rem;
 }
 </style>
