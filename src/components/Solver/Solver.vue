@@ -20,6 +20,7 @@ import validateGrid from './../../helpers/validation';
 import findSolution from './../../helpers/solve';
 import pencilGrid, { cellChangePencil } from './../../helpers/pencil';
 import { ref, watch } from 'vue';
+import findBlock from './../../helpers/blockfinder';
 
 // 2d array, Array[row][column]
 const grid = ref([...Array(9)].map(e => Array(9)));
@@ -33,7 +34,9 @@ const solvingGrid = ref([...Array(9)]
     .map(e => [1,2,3,4,5,6,7,8,9])));
 
 const changeGridCellValue = (value, row, column) => {
-    grid._value[row][column] = value;
+    grid.value[row][column] = value;
+    let block = findBlock(row, column);
+    cellChangePencil(pencilMarkGrid.value, row, column, block, value);
 }
 
 const autopencil = () => {
@@ -47,7 +50,6 @@ const solveGrid = () => {
 
 watch(() => grid.value, (grid) => {
     gridErrors.value = validateGrid(grid);
-    autopencil();
     },
     { deep: true }
 )
