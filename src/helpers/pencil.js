@@ -35,7 +35,6 @@ function pencilRow (pencilGrid, row, value) {
 }
 
 function pencilColumn (pencilGrid, column, value) {
-    console.log(pencilGrid, column, value);
     for(let row in pencilGrid) {
         pencilGrid[row][column][value - 1] = null;
     }

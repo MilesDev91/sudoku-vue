@@ -3,10 +3,10 @@
         <GridContainer 
             @change-selected="(row, column) => selectedCell = [row, column]"
             @change-grid-cell-value="(value, row, column) => changeGridCellValue(value, row, column)"
-            :grid="grid" 
+            :grid="grid.data" 
             :selectedCell="selectedCell" 
-            :gridErrors="gridErrors"
-            :pencilMarkGrid="pencilMarkGrid"
+            :gridErrors="gridErrors.data"
+            :pencilMarkGrid="pencilMarkGrid.data"
         />
         <div class="button-container">
             <button @click="solveGrid()">Solve</button>
@@ -21,35 +21,33 @@ import findSolution from './../../helpers/solve';
 import pencilGrid, { cellChangePencil } from './../../helpers/pencil';
 import { ref, watch } from 'vue';
 import findBlock from './../../helpers/blockfinder';
+import Grid from '../../models/Grid';
 
 // 2d array, Array[row][column]
-const grid = ref([...Array(9)].map(e => Array(9)));
-const gridErrors = ref([...Array(9)].map(e => Array(9)));
+const grid = ref(new Grid());
+const gridErrors = ref(new Grid());
 const selectedCell = ref();
-const pencilMarkGrid = ref([...Array(9)]
-    .map(e => [...Array(9)]
-    .map(e => [...Array(9)])));
-const solvingGrid = ref([...Array(9)]
-    .map(e => [...Array(9)]
-    .map(e => [1,2,3,4,5,6,7,8,9])));
+
+// 3d array, Array[row][column][multiple values]
+const pencilMarkGrid = ref(new Grid(true));
+const solvingGrid = ref(new Grid(false, true));
 
 const changeGridCellValue = (value, row, column) => {
-    grid.value[row][column] = value;
+    grid.value.data[row][column] = value;
     let block = findBlock(row, column);
-    cellChangePencil(pencilMarkGrid.value, row, column, block, value);
+    cellChangePencil(pencilMarkGrid.value.data, row, column, block, value);
 }
 
 const autopencil = () => {
-    pencilMarkGrid.value = pencilGrid(grid.value);
-    console.log(pencilMarkGrid.value);
+    pencilMarkGrid.value.data = pencilGrid(grid.value.data);
 }
 
 const solveGrid = () => {
-    findSolution(grid.value, solvingGrid.value);
+    findSolution(grid.value.data, solvingGrid.value.data);
 }
 
-watch(() => grid.value, (grid) => {
-    gridErrors.value = validateGrid(grid);
+watch(() => grid.value.data, (grid) => {
+    gridErrors.value.data = validateGrid(grid);
     },
     { deep: true }
 )

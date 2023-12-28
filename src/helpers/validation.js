@@ -1,14 +1,9 @@
-/*
-*   Section for validation
-*/
-
+/**
+ * 
+ * @param {*} grid 
+ * @returns 
+ */
 export default function validateGrid (grid) {
-    // We have to validate every cell with this implementation. 
-    // NOTE: There is potential
-    // for optimization here, but it
-    // is fairly premature. Notes at
-    // bottom of file.
-
     let gridErrors = [...Array(9)].map(e => Array(9));
 
     validateRow(grid, gridErrors);

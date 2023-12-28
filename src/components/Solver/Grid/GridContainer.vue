@@ -23,7 +23,6 @@
 </template>
 
 <script setup>
-import { watch } from 'vue';
 
 const props = defineProps(['grid', 'gridErrors', 'selectedCell', 'pencilMarkGrid']);
 
