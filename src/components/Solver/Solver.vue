@@ -1,12 +1,12 @@
 <template>
     <div class="container">
         <GridContainer 
-            @change-selected="(row: number, column: number) => selectedCell.coordinate = [row, column]"
-            @change-grid-cell-value="(value: number, row: number, column: number) => changeGridCellValue(value, row, column)"
-            :grid="grid.cells" 
+            @change-selected="(row, column) => selectedCell = [row, column]"
+            @change-grid-cell-value="(value, row, column) => changeGridCellValue(value, row, column)"
+            :grid="grid.data" 
             :selectedCell="selectedCell" 
-            :gridErrors="gridErrors.cells"
-            :pencilMarkGrid="pencilMarkGrid.cells"
+            :gridErrors="gridErrors.data"
+            :pencilMarkGrid="pencilMarkGrid.data"
         />
         <div class="button-container">
             <button @click="solveGrid()">Solve</button>
@@ -15,43 +15,39 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import validateGrid from './../../helpers/validation';
 import findSolution from './../../helpers/solve';
 import pencilGrid, { cellChangePencil } from './../../helpers/pencil';
 import { ref, watch } from 'vue';
 import findBlock from './../../helpers/blockfinder';
+import Grid from '../../models/Grid';
 
-import SudokuGrid from '../../classes/SudokuGrid';
-import SudokuPencilGrid from '../../classes/SudokuPencilGrid';
-import SudokuSolveGrid from '../../classes/SudokuSolveGrid';
-import SelectedCell from '../../interfaces/SelectedCell';
+// 2d array, Array[row][column]
+const grid = ref(new Grid());
+const gridErrors = ref(new Grid());
+const selectedCell = ref();
 
-// 2d array, number[][]
-const grid = ref(new SudokuGrid());
-const gridErrors = ref(new SudokuGrid());
-const selectedCell = ref<SelectedCell>();
+// 3d array, Array[row][column][multiple values]
+const pencilMarkGrid = ref(new Grid(true));
+const solvingGrid = ref(new Grid(false, true));
 
-// 3d array, number[][][]
-const pencilMarkGrid = ref(new SudokuPencilGrid());
-const solvingGrid = ref(new SudokuSolveGrid());
-
-const changeGridCellValue = (value: number, row: number, column: number) => {
-    grid.value.cells[row][column] = value;
+const changeGridCellValue = (value, row, column) => {
+    grid.value.data[row][column] = value;
     let block = findBlock(row, column);
-    cellChangePencil(pencilMarkGrid.value.cells, row, column, block, value);
+    cellChangePencil(pencilMarkGrid.value.data, row, column, block, value);
 }
 
 const autopencil = () => {
-    pencilMarkGrid.value.cells = pencilGrid(grid.value.cells);
+    pencilMarkGrid.value.data = pencilGrid(grid.value.data);
 }
 
 const solveGrid = () => {
-    findSolution(grid.value.cells, solvingGrid.value.cells);
+    findSolution(grid.value.data, solvingGrid.value.data);
 }
 
-watch(() => grid.value.cells, (grid) => {
-    gridErrors.value.cells = validateGrid(grid);
+watch(() => grid.value.data, (grid) => {
+    gridErrors.value.data = validateGrid(grid);
     },
     { deep: true }
 )

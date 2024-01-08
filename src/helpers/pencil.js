@@ -49,3 +49,6 @@ function pencilBlock (pencilGrid, block, value) {
     }
     return;
 }
+
+// Define blocks
+

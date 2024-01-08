@@ -9,15 +9,15 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { watch } from 'vue';
 
 const props = defineProps(['cellValue', 'cellRow', 'cellColumn', 'cellPencilMarks', 'isSelected']);
 
 const emit = defineEmits(['changeCellValue']);
 
-const emitChangeCellValueEvent = function(e: KeyboardEvent) {
-    if(parseInt(e.key) >= 1 && parseInt(e.key) <= 9) {
+const emitChangeCellValueEvent = function(e) {
+    if(e.key >= 1 && e.key <= 9) {
         emit('changeCellValue', e.key, props.cellRow, props.cellColumn);
     }
 }
