@@ -22,7 +22,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 const props = defineProps(['grid', 'gridErrors', 'selectedCell', 'pencilMarkGrid']);
 
@@ -31,7 +31,7 @@ const props = defineProps(['grid', 'gridErrors', 'selectedCell', 'pencilMarkGrid
 const emits = defineEmits(["changeSelected","changeGridCellValue"]);
 
 const isSelected = (row, column) => {
-    if(props.selectedCell && props.selectedCell[0] == row && props.selectedCell[1] == column) {
+    if(props.selectedCell && props.selectedCell.coordinate[0] == row && props.selectedCell.coordinate[1] == column) {
         return true
     }
     return false;

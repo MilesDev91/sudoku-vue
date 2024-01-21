@@ -30,7 +30,10 @@ import SelectedCell from '../../interfaces/SelectedCell';
 // 2d array, number[][]
 const grid = ref(new SudokuGrid());
 const gridErrors = ref(new SudokuGrid());
-const selectedCell = ref<SelectedCell>();
+const selectedCell = ref<SelectedCell>({
+    // Might be better to leave as [0,0]
+    coordinate: [-1,-1]
+});
 
 // 3d array, number[][][]
 const pencilMarkGrid = ref(new SudokuPencilGrid());
@@ -39,11 +42,12 @@ const solvingGrid = ref(new SudokuSolveGrid());
 const changeGridCellValue = (value: number, row: number, column: number) => {
     grid.value.cells[row][column] = value;
     let block = findBlock(row, column);
-    cellChangePencil(pencilMarkGrid.value.cells, row, column, block, value);
+    cellChangePencil(pencilMarkGrid.value, row, column, block, value);
 }
 
 const autopencil = () => {
-    pencilMarkGrid.value.cells = pencilGrid(grid.value.cells);
+    console.log(pencilMarkGrid.value);
+    pencilMarkGrid.value = pencilGrid(grid.value, pencilMarkGrid.value);
 }
 
 const solveGrid = () => {
