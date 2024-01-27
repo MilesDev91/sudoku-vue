@@ -5,7 +5,7 @@
             @change-grid-cell-value="(value: number, row: number, column: number) => changeGridCellValue(value, row, column)"
             :grid="grid.cells" 
             :selectedCell="selectedCell" 
-            :gridErrors="gridErrors.cells"
+            :gridErrors="gridErrors"
             :pencilMarkGrid="pencilMarkGrid.cells"
         />
         <div class="button-container">
@@ -20,6 +20,7 @@ import validateGrid from './../../helpers/validation';
 import findSolution from './../../helpers/solve';
 import pencilGrid, { cellChangePencil } from './../../helpers/pencil';
 import { ref, watch } from 'vue';
+import type { Ref } from 'vue';
 import findBlock from './../../helpers/blockfinder';
 
 import SudokuGrid from '../../classes/SudokuGrid';
@@ -28,9 +29,9 @@ import SudokuSolveGrid from '../../classes/SudokuSolveGrid';
 import SelectedCell from '../../interfaces/SelectedCell';
 
 // 2d array, number[][]
-const grid = ref(new SudokuGrid());
-const gridErrors = ref(new SudokuGrid());
-const selectedCell = ref<SelectedCell>({
+const grid: Ref<SudokuGrid> = ref(new SudokuGrid());
+const gridErrors: Ref<boolean[][]> = ref([...Array(9)].map(e => [Array(9)].map(e => false)));
+const selectedCell: Ref<SelectedCell> = ref({
     // Might be better to leave as [0,0]
     coordinate: [-1,-1]
 });
@@ -55,7 +56,7 @@ const solveGrid = () => {
 }
 
 watch(() => grid.value.cells, (grid) => {
-    gridErrors.value.cells = validateGrid(grid);
+    gridErrors.value = validateGrid(grid);
     },
     { deep: true }
 )
