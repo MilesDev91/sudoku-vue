@@ -9,11 +9,11 @@ import findBlock from "./blockfinder";
 // TODO: Implement the second parameter to prevent addition of previously removed values
 export default function pencilGrid (grid: SudokuGrid, pencilGrid: SudokuPencilGrid) {
     let newPencilGrid = new SudokuPencilGrid();
-    
+
     for(let row = 0; row < 9; row++) {
         for(let column = 0; column < 9; column++) {
-            if(grid[row][column]) {
-                let value: number = grid[row][column] + 1;
+            if(grid.cells[row][column]) {
+                let value: number = grid.cells[row][column] + 1;
                 let block = findBlock(row, column);
                 cellChangePencil(newPencilGrid, row, column, block, value);
             } 
@@ -31,14 +31,14 @@ export function cellChangePencil (pencilGrid: SudokuPencilGrid, row: number, col
 
 function pencilRow (pencilGrid: SudokuPencilGrid, row: number, value: number) {
     for(let column = 0; column < 9; column++) {
-        pencilGrid.cells[row][column][value - 1] = null;
+        pencilGrid.cells[row][column][value - 1] = 0;
     }
     return;
 }
 
 function pencilColumn (pencilGrid: SudokuPencilGrid, column: number, value: number) {
     for(let row = 0; row < 9; row++) {
-        pencilGrid.cells[row][column][value - 1] = null;
+        pencilGrid.cells[row][column][value - 1] = 0;
     }
     return;
 }
@@ -46,7 +46,7 @@ function pencilColumn (pencilGrid: SudokuPencilGrid, column: number, value: numb
 function pencilBlock (pencilGrid: SudokuPencilGrid, block: Block, value: number) {
     for(let row of block.row) {
         for(let column of block.column) {
-            pencilGrid.cells[row][column][value - 1] = null;
+            pencilGrid.cells[row][column][value - 1] = 0;
         }
     }
     return;

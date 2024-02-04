@@ -30,7 +30,7 @@ import SelectedCell from '../../interfaces/SelectedCell';
 
 // 2d array, number[][]
 const grid: Ref<SudokuGrid> = ref(new SudokuGrid());
-const gridErrors: Ref<boolean[][]> = ref([...Array(9)].map(e => [Array(9)].map(e => false)));
+const gridErrors: Ref<boolean[][]> = ref([...Array(9)].map(e => [...Array(9)].map(e => false)));
 const selectedCell: Ref<SelectedCell> = ref({
     // Might be better to leave as [0,0]
     coordinate: [-1,-1]
@@ -47,7 +47,6 @@ const changeGridCellValue = (value: number, row: number, column: number) => {
 }
 
 const autopencil = () => {
-    console.log(pencilMarkGrid.value);
     pencilMarkGrid.value = pencilGrid(grid.value, pencilMarkGrid.value);
 }
 

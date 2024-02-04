@@ -2,20 +2,20 @@
     <div class="grid-container">
         <div 
             :class="calculateRowClass(row)" 
-            v-for="(cell, row) in props.grid"
+            v-for="(e, row) in 9"
         >        
             <div 
                 @click="$emit('changeSelected', row, column)"
                 :class="calculateColumnClass(row, column)" 
-                v-for="(cell, column) in props.grid[row]"
+                v-for="(e, column) in 9"
             >
                 <GridCell  
-                    @change-cell-value="(value, row, column) => $emit('changeGridCellValue', value, row, column)"
+                    @change-cell-value="(value: number, row: number, column: number) => $emit('changeGridCellValue', value, row, column)"
                     :isSelected="isSelected(row, column)"
                     :cellValue="grid[row][column]"
                     :cellRow="row"
                     :cellColumn="column"
-                    :cellPencilMarks="pencilMarkGrid[row][column]"
+                    :cellPencilMarks="props.pencilMarkGrid[row][column]"
                 />
             </div>
         </div>
@@ -23,21 +23,29 @@
 </template>
 
 <script setup lang="ts">
+import SudokuGrid from '../../../classes/SudokuGrid';
+import SudokuPencilGrid from '../../../classes/SudokuPencilGrid';
+import SelectedCell from '../../../interfaces/SelectedCell';
 
-const props = defineProps(['grid', 'gridErrors', 'selectedCell', 'pencilMarkGrid']);
+interface Props {
+    grid: SudokuGrid,
+    gridErrors: boolean[][],
+    selectedCell: SelectedCell,
+    pencilMarkGrid: SudokuPencilGrid
+}
 
-
+const props = defineProps<Props>();
 
 const emits = defineEmits(["changeSelected","changeGridCellValue"]);
 
-const isSelected = (row, column) => {
+const isSelected = (row: number, column: number) => {
     if(props.selectedCell && props.selectedCell.coordinate[0] == row && props.selectedCell.coordinate[1] == column) {
         return true
     }
     return false;
 }
 
-const calculateRowClass = (row) => {
+const calculateRowClass = (row: number) => {
     let rowNumber = row + 1;
 
     let classArray = ["grid-row"];
@@ -55,7 +63,7 @@ const calculateRowClass = (row) => {
 }
 
 // Cell specific stuff goes here as well.
-const calculateColumnClass = (row, column) => {
+const calculateColumnClass = (row: number, column: number) => {
     let colNumber = column + 1;
 
     let classArray = ["grid-item"];
@@ -74,7 +82,7 @@ const calculateColumnClass = (row, column) => {
     if(isSelected(row, column)) {
         classArray.push("grid-item-selected");
     }
-    
+
     // check for a match to the grid error array
     if(props.gridErrors[row][column]) {
         classArray.push("grid-item-error");

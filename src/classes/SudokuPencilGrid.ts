@@ -6,6 +6,6 @@ export default class SudokuPencilGrid implements PencilGrid {
     constructor() {
         this.cells = [...Array(9)]
             .map(e => [...Array(9)]
-            .map(e => Array(9)));
+            .map(e => Array(9).fill(0)));
     }
 }

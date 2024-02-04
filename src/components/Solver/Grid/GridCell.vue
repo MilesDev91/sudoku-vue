@@ -4,13 +4,21 @@
     </div>
     <div class="pencil-mark-cell" v-else>
         <div v-for="mark in cellPencilMarks">
-            <p>{{ mark }}</p>
+            <p>{{ mark == 0 ? "" : mark }}</p>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { watch } from 'vue';
+
+interface Props {
+    cellValue: number,
+    cellRow: number,
+    cellColumn: number,
+    cellPencilMarks: number[],
+    isSelected: boolean
+}
 
 const props = defineProps(['cellValue', 'cellRow', 'cellColumn', 'cellPencilMarks', 'isSelected']);
 
