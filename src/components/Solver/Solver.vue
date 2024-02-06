@@ -9,8 +9,8 @@
             :pencilMarkGrid="pencilMarkGrid.cells"
         />
         <div class="button-container">
-            <button @click="solveGrid()">Solve</button>
-            <button @click="autopencil()">Auto Pencil</button>
+            <button @click="solveGrid()" style="background-color: gray; cursor: not-allowed" disabled>Solve</button>
+            <button @click="manualPencil()">Pencil</button>
         </div>
     </div>
 </template>
@@ -46,8 +46,8 @@ const changeGridCellValue = (value: number, row: number, column: number) => {
     cellChangePencil(pencilMarkGrid.value, row, column, block, value);
 }
 
-const autopencil = () => {
-    pencilMarkGrid.value = pencilGrid(grid.value, pencilMarkGrid.value);
+const manualPencil = () => {
+    pencilMarkGrid.value = pencilGrid(grid.value, pencilMarkGrid.value, true);
 }
 
 const solveGrid = () => {

@@ -7,13 +7,17 @@ import Block from "../interfaces/Block";
 import findBlock from "./blockfinder";
 
 // TODO: Implement the second parameter to prevent addition of previously removed values
-export default function pencilGrid (grid: SudokuGrid, pencilGrid: SudokuPencilGrid) {
+export default function pencilGrid (grid: SudokuGrid, pencilGrid: SudokuPencilGrid, manualFill = false) {
     let newPencilGrid = new SudokuPencilGrid();
+    if(manualFill) {
+        newPencilGrid.manualFill();
+    }
 
     for(let row = 0; row < 9; row++) {
         for(let column = 0; column < 9; column++) {
             if(grid.cells[row][column]) {
-                let value: number = grid.cells[row][column] + 1;
+                // Needed to do this to get JS on the other end to understand we want a number here, was forcing a string otherwise
+                let value: number = parseInt(grid.cells[row][column].toString());
                 let block = findBlock(row, column);
                 cellChangePencil(newPencilGrid, row, column, block, value);
             } 
