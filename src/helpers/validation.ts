@@ -1,10 +1,12 @@
+import SudokuGrid from "../classes/SudokuGrid";
+
 /**
  * 
  * @param {*} grid 
  * @returns 
  */
-export default function validateGrid (grid) {
-    let gridErrors = [...Array(9)].map(e => Array(9));
+export default function validateGrid (grid: number[][]) {
+    let gridErrors: boolean[][] = [...Array(9)].map(e => Array(9));
 
     validateRow(grid, gridErrors);
 
@@ -18,7 +20,7 @@ export default function validateGrid (grid) {
 // TODO: Is there a good way to combine the Row, Column, and Block since we are already cycling through every cell on each one, or a way to simplify?
 
 // Validate row
-export const validateRow = (grid, gridErrors) => {
+export const validateRow = (grid: number[][], gridErrors: boolean[][]) => {
     // Check for duplicates in each row by adding a key:value to 
     // alreadyseen, then checking on each subsequent loop.
     // If a match is found, then add the 2d location to gridErrors
@@ -43,7 +45,7 @@ export const validateRow = (grid, gridErrors) => {
 }
 
 // Validate column
-export const validateColumn = (grid, gridErrors) => {
+export const validateColumn = (grid: number[][], gridErrors: boolean[][]) => {
     // Use a similar method as above, just with different looping.
     // Used different syntax as well, but does the same thing.
     for(let column = 0; column < 9; column++) {
@@ -66,7 +68,7 @@ export const validateColumn = (grid, gridErrors) => {
 }
 
 // Validate block
-export const validateBlock = (grid, gridErrors) => {
+export const validateBlock = (grid: number[][], gridErrors: boolean[][]) => {
     for(let block in blocks) {
         let alreadySeen = {};
         let blockRows = blocks[block].row
