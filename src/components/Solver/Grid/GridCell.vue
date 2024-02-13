@@ -9,7 +9,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { watch } from 'vue';
 
 interface Props {
@@ -24,8 +24,8 @@ const props = defineProps(['cellValue', 'cellRow', 'cellColumn', 'cellPencilMark
 
 const emit = defineEmits(['changeCellValue']);
 
-const emitChangeCellValueEvent = function(e) {
-    if(e.key >= 1 && e.key <= 9) {
+const emitChangeCellValueEvent = function(e: KeyboardEvent) {
+    if(parseInt(e.key) >= 1 && parseInt(e.key) <= 9) {
         emit('changeCellValue', e.key, props.cellRow, props.cellColumn);
     }
 }
