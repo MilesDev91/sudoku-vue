@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <GridContainer 
-            @change-selected="(row, column) => selectedCell = [row, column]"
-            @change-grid-cell-value="(value, row, column) => changeGridCellValue(value, row, column)"
-            :grid="grid.data" 
+            @change-selected="(row: number, column: number) => selectedCell.coordinate = [row, column]"
+            @change-grid-cell-value="(value: number, row: number, column: number) => changeGridCellValue(value, row, column)"
+            :grid="grid.cells" 
             :selectedCell="selectedCell" 
             :gridErrors="gridErrors"
             :pencilMarkGrid="pencilMarkGrid.cells"
@@ -15,7 +15,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import validateGrid from './../../helpers/validation';
 import findSolution from './../../helpers/solve';
 import pencilGrid, { cellChangePencil } from './../../helpers/pencil';
@@ -36,12 +36,12 @@ const selectedCell: Ref<SelectedCell> = ref({
     coordinate: [-1,-1]
 });
 
-// 3d array, Array[row][column][multiple values]
-const pencilMarkGrid = ref(new Grid(true));
-const solvingGrid = ref(new Grid(false, true));
+// 3d array, number[][][]
+const pencilMarkGrid = ref(new SudokuPencilGrid());
+const solvingGrid = ref(new SudokuSolveGrid());
 
-const changeGridCellValue = (value, row, column) => {
-    grid.value.data[row][column] = value;
+const changeGridCellValue = (value: number, row: number, column: number) => {
+    grid.value.cells[row][column] = value;
     let block = findBlock(row, column);
     cellChangePencil(pencilMarkGrid.value, row, column, block, value);
 }
@@ -51,7 +51,7 @@ const manualPencil = () => {
 }
 
 const solveGrid = () => {
-    findSolution(grid.value.data, solvingGrid.value.data);
+    findSolution(grid.value.cells, solvingGrid.value.cells);
 }
 
 watch(() => grid.value.cells, (grid) => {
