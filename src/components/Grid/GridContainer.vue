@@ -23,9 +23,9 @@
 </template>
 
 <script setup lang="ts">
-import SudokuGrid from '../../../classes/SudokuGrid';
-import SudokuPencilGrid from '../../../classes/SudokuPencilGrid';
-import SelectedCell from '../../../interfaces/SelectedCell';
+import SudokuGrid from '../../classes/SudokuGrid';
+import SudokuPencilGrid from '../../classes/SudokuPencilGrid';
+import SelectedCell from '../../interfaces/SelectedCell';
 
 interface Props {
     grid: SudokuGrid,
