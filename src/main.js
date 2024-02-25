@@ -4,8 +4,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 
 import Header from './components/shared/header.vue'
-import Solver from './pages/Solver/SudokuSolver.vue'
-import GridContainer from './components/Solver/Grid/GridContainer.vue'
+import Solver from './pages/TheSudokuSolver.vue'
+import GridContainer from './components/Solver/Grid/TheGridContainer.vue'
 import GridCell from './components/Solver/Grid/GridCell.vue'
 
 const app = createApp(App);

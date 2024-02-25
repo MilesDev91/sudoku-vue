@@ -1,6 +1,6 @@
-import SolveGrid from "../interfaces/SolveGrid";
+import SolvingGrid from "../interfaces/SolvingGrid";
 
-export default class SudokuSolveGrid implements SolveGrid {
+export default class SudokuSolveGrid implements SolvingGrid {
     cells: number[][][];
 
     constructor() {

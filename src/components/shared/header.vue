@@ -1,20 +1,20 @@
 <template>
-    <div class="container">
+    <div class="header-container">
         <p>Sudoku Solver</p>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 </script>
 
 <style scoped>
-.container {
+.header-container {
     padding: 1rem;
     border-bottom: 2px solid black;
 }
 
-.container p {
+.header-container p {
     font-weight: bold;
 }
 </style>

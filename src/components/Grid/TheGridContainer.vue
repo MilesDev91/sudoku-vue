@@ -11,11 +11,11 @@
             >
                 <GridCell  
                     @change-cell-value="(value: number, row: number, column: number) => $emit('changeGridCellValue', value, row, column)"
-                    :isSelected="isSelected(row, column)"
-                    :cellValue="grid[row][column]"
-                    :cellRow="row"
-                    :cellColumn="column"
-                    :cellPencilMarks="props.pencilMarkGrid[row][column]"
+                    :is-selected="isSelected(row, column)"
+                    :cell-value="grid[row][column]"
+                    :cell-row="row"
+                    :cell-column="column"
+                    :cell-pencil-marks="props.pencilMarkGrid[row][column]"
                 />
             </div>
         </div>
