@@ -8,6 +8,7 @@
             :grid-errors="gridErrors"
             :pencil-mark-grid="pencilMarkGrid.cells"
         />
+        <TheSudokuToolbar />
         <div class="button-container">
             <button @click="solveGrid()" style="background-color: gray; cursor: not-allowed" disabled>Solve</button>
             <button @click="manualPencil()">Pencil</button>
